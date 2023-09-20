@@ -1,0 +1,15 @@
+.main-title {
+  background: #3b5d50;
+  padding: 100px 0;
+}
+
+h1 {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #ffffff;
+  margin-bottom: 30px;
+}
