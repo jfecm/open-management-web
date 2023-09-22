@@ -9,6 +9,10 @@ import { PageNotFoundComponent } from './core/components/page-not-found/page-not
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { HomeComponent } from './modules/home/home.component';
 import {NgOptimizedImage} from "@angular/common";
+import { LoginComponent } from './modules/auth/login/login.component';
+import { RegisterComponent } from './modules/auth/register/register.component';
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -17,12 +21,16 @@ import {NgOptimizedImage} from "@angular/common";
     FooterComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
