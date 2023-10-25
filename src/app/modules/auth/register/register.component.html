@@ -1,9 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col col-lg-6 offset-lg-3">
-      <h2>New User Registration</h2>
 
-      <form (ngSubmit)="register()">
+      <form (ngSubmit)="register()" autocomplete="off">
+        <h1 class="display-4 m-2 text-center"><span class="text-success fw-bold">Registration</span> </h1>
+
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
           <input type="text"
@@ -31,9 +32,6 @@
         <button type="submit" class="btn btn-primary">Register</button>
       </form>
 
-      <div *ngIf="error" class="alert alert-danger mt-3">
-        {{ error }}
-      </div>
     </div>
   </div>
 </div>

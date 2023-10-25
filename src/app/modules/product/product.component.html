@@ -1,0 +1,84 @@
+<h1 class="display-4 m-2 text-center">List of products on <span class="text-success fw-bold">Offer</span></h1>
+
+<div class="container product-container" *ngIf="isLoading">
+  <div class="text-center">
+    <button class="btn btn-primary" type="button" disabled>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button>
+  </div>
+</div>
+
+<div class="container product-container" *ngIf="productList && !isLoading">
+  <div class="row m-5 row-cols-2">
+    <div class="col-5 d-flex align-items-center justify-content-center">
+
+    </div>
+    <div class="col d-flex align-items-center justify-content-center">
+      <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+    </div>
+  </div>
+
+  <div class="row row-cols-lg-2 row-cols-sm-2 row-cols-1">
+    <div class="col p-2 rounded"
+         *ngFor="let product of productList | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalElements }">
+      <div class="card h-100">
+        <img #img [src]="product.imageURL"
+             (error)="img.src = 'assets/images/defaultImageURL.png'"
+             alt="{{ product.name }}"
+             class="card-img-top img-fluid rounded max-img-size">
+
+        <div class="card-body">
+          <table class="table table-striped">
+            <caption></caption>
+            <tbody>
+            <tr>
+              <th>Name:</th>
+              <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+              <th>Description:</th>
+              <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+              <th>Price:</th>
+              <td>$ {{ product.price }} USD</td>
+            </tr>
+            <tr>
+              <th>Color:</th>
+              <td>{{ product.color }}</td>
+            </tr>
+            <tr>
+              <th>Brand - Model:</th>
+              <td>{{ product.brand }} - {{ product.model }}</td>
+            </tr>
+            <tr>
+              <th>Capacity - OS:</th>
+              <td>{{ product.capacity }} - {{ product.operatingSystem }}</td>
+            </tr>
+            <tr>
+              <th>Available Quantity:</th>
+              <td>{{ product.availableQuantity }}</td>
+            </tr>
+            <tr>
+              <th>Release Date:</th>
+              <td>{{ product.releaseDate | date: 'dd-MM-yyyy' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row m-5 row-cols-2">
+    <div class="col-5 d-flex align-items-center justify-content-center">
+      <button (click)="scrollToTop()" class="btn btn-primary btn-sm">Back to top <i class="bi bi-arrow-up"></i></button>
+    </div>
+    <div class="col d-flex align-items-center justify-content-center">
+      <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+    </div>
+  </div>
+
+</div>

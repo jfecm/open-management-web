@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {User} from "../../../core/models/user/user";
 import {AuthService} from "../../../core/services/auth.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login', templateUrl: './login.component.html', styleUrls: ['./login.component.css']
@@ -8,11 +10,8 @@ import {AuthService} from "../../../core/services/auth.service";
 export class LoginComponent {
   // User model to store username and password
   user: User = new User();
-  // Error message to display in case of login failure
-  error: string | null = null;
 
-  constructor(private authService: AuthService) {
-
+  constructor(private authService: AuthService, private toastService: ToastrService, private router: Router) {
   }
 
   /**
@@ -20,29 +19,22 @@ export class LoginComponent {
    * Clears any previous error message before making the login attempt.
    */
   login() {
-    this.clearError();
     this.authService.login(this.user.username, this.user.password).subscribe({
       next: response => {
-        console.log('Login successful:', response);
+        this.toastService.success("Login successful!")
+        this.router.navigate(['home']);
       }, error: err => {
-        this.handleLoginError(err);
+        if (err.status === 0) {
+          this.toastService.error("Unable to connect to the server. Please check your internet connection or try again later.", "Server Unavailable");
+        } else if (err.error.fieldErrors != null) {
+          this.toastService.error(err.error.fieldErrors, "Registration error");
+        } else if (err.error.detail != null) {
+          this.toastService.error(err.error.detail, "Registration error");
+        } else {
+          this.toastService.error(err.error.message, "Registration error");
+        }
       }
     });
-  }
-
-  /**
-   * Clears the error message, setting it to null.
-   */
-  clearError() {
-    this.error = null;
-  }
-
-  /**
-   * Handles and displays the login error message.
-   * @param error The error object received from the AuthService.
-   */
-  private handleLoginError(error: any): void {
-    this.error = error.error.message;
   }
 
 }

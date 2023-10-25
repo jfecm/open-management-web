@@ -1,0 +1,138 @@
+<div class="container product-container" *ngIf="isLoading">
+  <div class="text-center">
+    <button class="btn btn-primary" type="button" disabled>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button>
+  </div>
+</div>
+
+
+<div class="container product-container" *ngIf="!isLoading">
+
+  <div class="row ">
+    <h1 class="col-lg-12 p-5">Showing {{total}} Products</h1>
+
+    <div class="col-lg-3 col-md-6 col-sm-12 p-2 m-2">
+      <h4 class="text-start">Models</h4>
+      <div class="row">
+        <div class="col">
+          <div class="form-check" *ngFor="let model of models">
+            <input class="form-check-input" type="radio" name="model" [id]="'model-' + model" [value]="model"
+                   [(ngModel)]="selectedModel">
+            <label class="form-check-label" [for]="'model-' + model">{{ model }}</label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-12"/>
+
+      <h4 class="text-start">Brands</h4>
+      <div class="row">
+        <div class="col">
+          <div class="form-check" *ngFor="let brand of brands">
+            <input class="form-check-input" type="radio" name="brand" [id]="'brand-' + brand" [value]="brand"
+                   [(ngModel)]="selectedBrand">
+            <label class="form-check-label" [for]="'brand-' + brand">{{ brand }}</label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-12"/>
+
+      <h4 class="text-start">PRICE <span>(usd)</span></h4>
+      <div class="row">
+        <div class="d-grid gap-2 col-6 mx-2">
+          <button type="button" class="btn btn-outline-primary price-range" data-min="0" data-max="100"
+                  (click)="setPriceRange(1.0, 100.0)"
+                  [class.active]="selectedMinPrice === 1.0 && selectedMaxPrice === 100.0">
+            Less than $100
+          </button>
+          <button type="button" class="btn btn-outline-secondary price-range" data-min="100" data-max="500"
+                  (click)="setPriceRange(100.0, 500.0)"
+                  [class.active]="selectedMinPrice === 100.0 && selectedMaxPrice === 500.0">
+            $100 - $500
+          </button>
+          <button type="button" class="btn btn-outline-success price-range" data-min="500" data-max="1000"
+                  (click)="setPriceRange(500.0, 1000.0)"
+                  [class.active]="selectedMinPrice === 500.0 && selectedMaxPrice === 1000.0">
+            $500 - $1,000
+          </button>
+          <button type="button" class="btn btn-outline-danger price-range" data-min="1000" data-max="999999"
+                  (click)="setPriceRange(1000.0, 999999.0)"
+                  [class.active]="selectedMinPrice === 1000.0 && selectedMaxPrice === 999999.0">
+            Over $1,000
+          </button>
+        </div>
+      </div>
+
+
+      <hr class="my-12"/>
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-primary" (click)="updateResults()">Update Results</button>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filters</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg col-md-6 col-sm-12">
+      <div class="row">
+        <div class="col-5">
+          <div class="dropdown">
+            <h4 class="text-start">Sort by:
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                Price
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li>
+                  <button class="dropdown-item" type="button">Price Descending</button>
+                </li>
+                <li>
+                  <button class="dropdown-item" type="button">Price Ascending</button>
+                </li>
+              </ul>
+            </h4>
+
+          </div>
+        </div>
+        <div class="col">
+          <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        </div>
+
+      </div>
+
+      <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1">
+        <div class="col p-2 rounded"
+             *ngFor="let product of productList | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalElements }">
+          <div class="card">
+            <img #img [src]="product.imageURL"
+                 (error)="img.src = 'assets/images/defaultImageURL.png'"
+                 alt="{{ product.name }}"
+                 class="card-img-top img-fluid rounded max-img-size">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text text-warning ">$ {{ product.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-2 row-cols-2">
+        <div class="col-5 d-flex align-items-center justify-content-center">
+          <button (click)="scrollToTop()" class="btn btn-primary btn-sm">Back to top <i class="bi bi-arrow-up"></i>
+          </button>
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+          <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.max-img-size {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.product-container {
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+/* Estilos para el rango de precios */
+input[type="range"] {
+  width: 100%;
+}
+
+/* Estilos para las etiquetas */
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Estilos para los valores de salida */
+output {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+}
